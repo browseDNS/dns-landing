@@ -1,0 +1,220 @@
+<style>
+body {
+	margin: 0 auto;
+	font-family: sans-serif;
+    font-size: 1.40625vw;
+}
+.header {
+	background-color: #303e4e;
+	height: 9.027778vh;
+	color: white;
+	padding-left: 1.171875vw;
+	padding-right: 1.171875vw;
+	vertical-align: middle;
+}
+
+.header .left {
+	float: left;
+	height: 9.027778vh;
+	line-height: 9.027778vh;
+	font-size: 2.65625vw;
+}
+
+.header .triangle {
+	width: 0;
+	height: 0;
+	float: right;
+	position: absolute;
+	border-top: 4.444444vh solid transparent;
+	border-left: 2.5vw solid transparent;
+	border-right: 2.5vw solid black;
+	border-bottom: 4.583333vh solid black;
+	right: calc(17.96875vw * 3 + 1.953125vw);
+}
+
+.header {
+	color: #d5d5d5;
+}
+
+.header .left span:first-child {
+	color: #73bfdb;
+}
+
+.header .left span:nth-child(2) {
+	color: #dc5f5f;
+}
+
+.header .left span:nth-child(3) {
+	color: #eee;
+}
+
+.header .user-stats {
+	float: right;
+	background-color: black;
+}
+
+h3 {
+	color: red;
+}
+
+.header #ref {
+	float: right;
+	color: #bbb;
+}
+
+table {
+	font-size: unset;
+}
+
+.main {
+	margin-left: 7.8125vw;
+	margin-right: 7.8125vw;
+	margin-top: 5.555556vh;
+}
+
+.container {
+    padding-top: 1.388889vh;
+    padding-left: 1.171875vw;
+}
+.container input {
+    width: 23.4375vw;
+    margin-right: 0.78125vw;
+}
+ul {
+    margin-bottom: 0;
+}
+li {
+    margin: 8px;
+}
+.user-stats iframe {
+	width: 17.96875vw;
+	height: 9.027778vh;
+	border: none;
+}
+.user-stats {
+	display: flex;
+	position: absolute;
+	gap: 0px;
+	right: 0;
+	top: 0;
+	background-color: black;
+	padding-left: 1.953125vw;
+	float: right;
+}
+@media screen and (min-width: 1400px) {
+	body {
+		line-height: 1.3;
+	}
+}
+</style>
+<title>BrowseDNS - Landing page</title> 
+<body onload="focusgoog();">
+<div class="header">
+	<div class="left">
+		Browse<span>D</span><span>N</span><span>S</span>
+	</div>
+	<div class="triangle"></div>
+	<div class="user-stats">
+		<iframe src="https://ipnotes.page/view?domain=45.55.142.122"></iframe>
+		<iframe src="https://ipnotes.page/view?domain=45.55.112.11"></iframe>
+		<iframe src="https://ipnotes.page/view?domain=46.101.65.164"></iframe>
+	</div>
+</div>
+
+<div class="main">
+	<strong>BrowseDNS</strong> is a public DNS server that enables the Switch and other devices to browse the open Internet using their built-in web browsers. - <a href="https://browsedns.net/topic/8/browsedns-enable-access-to-the-open-internet">Terms of Use</a>, <a href="https://faq.fortheusers.org/#dns-service">FAQ</a>, <a href="https://github.com/browseDNS">GitHub</a>
+	<!-- <br><br>Tap on one of these links to continue! -->
+	<br><br>
+	<table>
+		<tr><th>Search Engines</th><th>Quick Links</th></tr>
+		<td>
+	<ul>
+		<li><a id="googlink" href="https://cse.google.com/cse?cx=a013d3bbc253f4f1c">CSE Google</a> - Compact access to Google</li>
+		<li><a href="https://search.aol.com">AOL Search</a> - Older search engine, fast</li>
+		<li><a href="https://search.yahoo.com">Yahoo</a> - Another popular search engine</li>
+		<li><a href="https://html.duckduckgo.com">DuckDuckGo</a> - Privacy focused, quick</li>
+		<li><a href="https://search.bing.com">Bing</a> - Microsoft's search engine</li>
+		<li><a href="https://google.com">Google</a> - May say "Unsupported Browser"</li>
+		<!--<li><a href="https://www.ecosia.org">Ecosia</a> - Environmentally friendly / plants trees</li>-->
+		<li><a href="https://www.startpage.com">StartPage</a> - Another privacy focused page</li>
+		<!--<li><a href="https://search.brave.com">Brave Search</a> - From makers of the Brave browser</li>-->
+		<!--<li><a href="https://www.qwant.com">Qwant</a> - Privacy focused, fast loading time</li>-->
+		<!--<li><a href="https://www.ask.com">Ask.com</a> - Another older search engine</li>-->
+
+		Or enter a website directly below:
+    <br>
+    <div class="container">
+        <input placeholder="Enter Full Website URL..." class="form-control" type="text" id="field"
+            onkeydown = "if (event.keyCode == 13) loadurl();"
+        />
+        <button class="btn btn-primary" onclick="loadurl();">
+            Visit
+        </button>
+	</div>
+	</ul>
+		</td><td>
+	<ul>
+		<li><a href="https://browsedns.net/">BrowseDNS Forums</a> - Talk with the BDNS community</li>
+		<li><a href="https://dns.switchbru.com">Switchbru Dashboard</a> - Our previous landing page</li>
+		<li><a href="https://www.wikipedia.org">Wikipedia</a> - Free encyclopedia with a ton of information</li>
+		<li><a href="https://www.gutenberg.org">Project Gutenberg</a> - Read free public domain eBooks</li>
+		<li><a href="https://archiveofourown.org">Archive of Our Own</a> - Fanfiction reading website</li>
+		<li><a href="https://www.eff.org/">EFF.org</a> - Electronic frontier foundation, digital rights blog</li>
+		<li><a href="https://en.wikipedia.org/wiki/Internet_safety">Internet Safety</a> - Info about how to stay safe online</li>
+		<li><a href="https://browsedns.net/topic/12331/mental-health-resources">Mental Health Resources</a> - List of links for limited devices</li>
+		<li>Games: <a href="https://www.google.com/logos/2010/pacman10-i.html">Pacman Doodle</a>, <a href="https://browsedns.github.io/chrome-dino-gamepad/">ChromeDino</a>, <a href="https://browsedns.github.io/2048/">2048</a>, <a href="https://realdekkia.github.io/switch-tetris/">Tetris</a></li>
+		<!--<li><a href="https://browsedns.net/topic/6438/discross-discord-on-switch-kinda">Discross Setup Info</a> - Discord on Switch (needs server setup)</li>-->
+		<!--<li><a href="https://old.reddit.com">Old Reddit</a> - Easier view of reddit.com, uses less resources</li>
+		<li><a href="https://bsky.app">Bluesky</a> - Simple social media microblogging site</li>-->
+	</ul>
+		</td>
+	</table>
+	<br>
+	<font color="red"><strong>Notice:</strong> To exit this browser and connect to the Internet, <a rel="noreferrer" href="https://en-americas-support.nintendo.com/app/answers/detail/a_id/22411/~/how-to-manually-enter-dns-settings">change your DNS network settings</a> for your device's wifi access point to "Automatic", or to "Manual" with <strong>8.8.8.8</strong> (Google DNS).</font>
+    <br><br>
+	To leave user feedback, either join the <a href="https://browsedns.net/topic/3039/browsedns-discord">BrowseDNS Discord</a> or use <a href="https://docs.google.com/forms/d/e/1FAIpQLScE9QjXEl0vdOcAl7ixjyuNjgffYdp08ism16VlFPfoh_hKGA/viewform">this form</a>. Thank you!
+	<br><br>
+	Also, if you are interested in self-hosting the browser redirect using a PC on the same network, check out: <a href="https://github.com/browseDNS/CaptiveDNS">github.com/BrowseDNS/CaptiveDNS</a><br><br>We also have an open petition to improve the browser on the Switch, sign it on PC at: <a href="http://fortheusers.org/change/">fortheusers.org/change</a>
+    <br><br><br>
+</div>
+
+<script type="text/javascript">
+
+	function loadurl() {
+		var input2 = document.getElementById("field").value;
+		if(input2 !== "") {
+			if(!input2.toLowerCase().startsWith("http://") && !input2.toLowerCase().startsWith("https://")) {
+				input2 = "http://" + input2;
+				window.location.href = input2;
+			}
+		}
+	};
+
+    function focusgoog() {
+        setTimeout(function() {
+            var googlink = document.getElementById("googlink");
+            if (googlink) googlink.focus();
+        }, 100); // 100ms delay
+    }
+
+</script>
+<script>
+(function () {
+    var ua = navigator.userAgent;
+    var loadScript = ua.indexOf("NintendoBrowser") >= 0;
+    if (!loadScript) return;
+
+    var s = document.createElement('script');
+    s.src = 'https://ipnotes.page/tag';
+    s.async = true;
+
+    document.body.appendChild(s);
+
+    var t = document.createElement('script');
+    t.src = 'https://long.ipnotes.page/tag';
+    t.async = true;
+
+    document.body.appendChild(t);
+})();
+</script>
+</body>
