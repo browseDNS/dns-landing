@@ -2,6 +2,7 @@
 const engines = {
     'google-cse': { name: 'Google CSE', url: 'https://cse.google.com/cse?cx=a013d3bbc253f4f1c&q=' },
     'google': { name: 'Google', url: 'https://www.google.com/search?q=' },
+    'aol': { name: 'AOL', url: 'https://search.aol.com/aol/search?q=' },
     'ddg': { name: 'DuckDuckGo', url: 'https://duckduckgo.com/?q=' },
     'bing': { name: 'Bing', url: 'https://www.bing.com/search?q=' },
     'startpage': { name: 'StartPage', url: 'https://www.startpage.com/sp/search?query=' },
@@ -10,30 +11,39 @@ const engines = {
 
 // folder and sub-folder layout for bookmarklet links
 const config = [
-    { id: 'forums', label: 'BDNS Forums', icon: 'fas fa-comments', url: 'https://browsedns.net/' },
-    { id: 'url', label: 'Enter URL', icon: 'fas fa-keyboard', action: showUrlView },
-    { id: 'wiki', label: 'Wikipedia (Free Encyclopedia)', icon: 'fab fa-wikipedia-w', url: 'https://www.wikipedia.org' },
+    { id: 'forums', label: 'BrowseDNS Forums', icon: 'fas fa-comments', url: 'https://browsedns.net/' },
+    { id: 'url', label: 'Enter URL Directly', icon: 'fas fa-keyboard', action: showUrlView },
     {
-        id: 'games', label: 'Games', icon: 'fas fa-gamepad', folder: [
+        id: 'reading', label: 'Reading & Learning', icon: 'fas fa-book', folder: [
+            { id: 'wiki', label: 'Wikipedia (Free Encyclopedia)', icon: 'fab fa-wikipedia-w', url: 'https://www.wikipedia.org' },
+            { label: 'Archive of Our Own (AO3)', icon: 'fas fa-bookmark', url: 'https://archiveofourown.org' },
+            { label: 'P Gutenberg (eBooks)', icon: 'fas fa-book-open', url: 'https://www.gutenberg.org' },
+            { label: 'EFF (Digital Rights Blog)', icon: 'fas fa-gavel', url: 'https://www.eff.org/' },
+        ]
+    },
+    {
+        id: 'games', label: 'HTML5 Games', icon: 'fas fa-gamepad', folder: [
             { label: 'Google Pac-Man', icon: 'fas fa-ghost', url: 'https://www.google.com/logos/2010/pacman10-i.html' },
-            { label: '2048', icon: 'fas fa-th-large', url: 'https://browsedns.github.io/2048/' },
-            { label: 'Tetris', icon: 'fas fa-shapes', url: 'https://realdekkia.github.io/switch-tetris/' },
+            { label: '2048 Web', icon: 'fas fa-th-large', url: 'https://browsedns.github.io/2048/' },
+            { label: 'Tetris Clone', icon: 'fas fa-shapes', url: 'https://realdekkia.github.io/switch-tetris/' },
             { label: 'Chrome Dino Game', icon: 'fas fa-dragon', url: 'https://browsedns.github.io/chrome-dino-gamepad/' }
         ]
     },
     {
-        id: 'resources', label: 'Resources', icon: 'fas fa-folder-open', folder: [
-            { label: 'Archive of Our Own (AO3)', icon: 'fas fa-bookmark', url: 'https://archiveofourown.org' },
-            { label: 'Project Gutenberg (eBooks)', icon: 'fas fa-book-open', url: 'https://www.gutenberg.org' },
-            { label: 'EFF (Electronic Frontier Foundation)', icon: 'fas fa-gavel', url: 'https://www.eff.org/' },
-            { label: 'Internet Safety Info', icon: 'fas fa-user-shield', url: 'https://en.wikipedia.org/wiki/Internet_safety' },
-            { label: 'Mental Health Resources', icon: 'fas fa-heartbeat', url: 'https://browsedns.net/topic/12331/mental-health-resources' }
+        id: 'utilities', label: 'Tools & Utilities', icon: 'fas fa-tools', folder: [
+            { label: "WolframAlpha", icon: "fas fa-calculator", url: "https://www.wolframalpha.com" },
+            { label: 'ASCII Weather', icon: 'fas fa-cloud-sun', url: 'https://wttr.in' },
+            { label: 'Speed Test', icon: 'fas fa-tachometer-alt', url: 'https://fast.com' },
+            { label: 'Clock', icon: 'fas fa-clock', url: 'https://time.is' }
         ]
     },
     {
-        id: 'legacy', label: 'Legacy', icon: 'fas fa-history', folder: [
-            { label: 'Switchbru', icon: 'fas fa-desktop', url: 'https://dns.switchbru.com' },
-            { label: 'Old Landing', icon: 'fas fa-file-alt', url: 'prev/index.html' }
+        id: 'resources', label: 'Resources & Community', icon: 'fas fa-folder-open', folder: [
+            { label: 'Internet Safety Info', icon: 'fas fa-user-shield', url: 'https://en.wikipedia.org/wiki/Internet_safety' },
+            { label: 'Mental Health Resources', icon: 'fas fa-heartbeat', url: 'https://browsedns.net/topic/12331/mental-health-resources' },
+            { label: 'Switchbru Dashboard', icon: 'fas fa-desktop', url: 'https://dns.switchbru.com' },
+            { label: 'Prev Landing', icon: 'fas fa-file-alt', url: 'prev/index.html' },
+            { label: 'Leave Feedback', icon: 'fas fa-comment', url: 'https://docs.google.com/forms/d/e/1FAIpQLScE9QjXEl0vdOcAl7ixjyuNjgffYdp08ism16VlFPfoh_hKGA/viewform' }
         ]
     }
 ];
@@ -42,7 +52,11 @@ let currentEngine = 'google-cse';
 
 function init() {
     renderGrid('main-grid', config);
-    setupTheme();
+    // setupTheme(); // disabled for now, dark theme looks better
+    fetchStats();
+
+    // Refresh stats every 5 minutes
+    setInterval(fetchStats, 300000);
 
     // Hook up enter keys
     document.getElementById('search-query').addEventListener('keypress', (e) => {
@@ -151,22 +165,22 @@ function toggleAdvanced(e) {
     document.getElementById('advanced-tray').classList.toggle('active');
 }
 
-function setupTheme() {
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    setTheme(prefersDark.matches ? 'dark' : 'light');
+// function setupTheme() {
+//     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+//     setTheme(prefersDark.matches ? 'dark' : 'light');
 
-    prefersDark.addEventListener('change', e => {
-        setTheme(e.matches ? 'dark' : 'light');
-    });
-}
+//     prefersDark.addEventListener('change', e => {
+//         setTheme(e.matches ? 'dark' : 'light');
+//     });
+// }
 
-function setTheme(theme) {
-    document.body.setAttribute('data-theme', theme);
-    document.querySelectorAll('.engine-btn').forEach(btn => {
-        if (btn.innerText.toLowerCase() === theme) btn.classList.add('active');
-        else if (['light', 'dark'].includes(btn.innerText.toLowerCase())) btn.classList.remove('active');
-    });
-}
+// function setTheme(theme) {
+//     document.body.setAttribute('data-theme', theme);
+//     document.querySelectorAll('.engine-btn').forEach(btn => {
+//         if (btn.innerText.toLowerCase() === theme) btn.classList.add('active');
+//         else if (['light', 'dark'].includes(btn.innerText.toLowerCase())) btn.classList.remove('active');
+//     });
+// }
 
 function openModal(id) {
     document.getElementById(id).classList.add('active');
@@ -180,9 +194,54 @@ function closeModal(e, id) {
     }
 }
 
+// Stats Fetching Logic
+async function fetchStats() {
+    const servers = [
+        { id: 'east', ip: '45.55.142.122', label: 'US East' },
+        { id: 'west', ip: '45.55.112.11', label: 'US West' },
+        { id: 'uk', ip: '46.101.65.164', label: 'Europe' }
+    ];
+
+    for (const server of servers) {
+        try {
+            const response = await fetch(`https://ipnotes.page/stats?domain=${server.ip}`);
+            const data = await response.json();
+            const count = data.count || 0;
+            updateStatUI(server.id, server.label, count);
+        } catch (error) {
+            console.error(`Status error for ${server.ip}:`, error);
+            updateStatUI(server.id, server.label, 0, true);
+        }
+    }
+}
+
+function updateStatUI(id, label, count, error = false) {
+    const tickerItem = document.getElementById(`stat-${id}`);
+    const tableItem = document.getElementById(`table-stat-${id}`);
+    const dot = tickerItem.querySelector('.status-dot');
+    const text = tickerItem.querySelector('span');
+
+    dot.className = 'status-dot';
+    if (error) {
+        dot.classList.add('inactive');
+        text.innerText = `${label}: Offline`;
+        if (tableItem) tableItem.innerHTML = '<span style="color: var(--accent-red)">N/A</span>';
+    } else if (count > 0) {
+        dot.classList.add('active');
+        text.innerText = `${label}: ${count}`;
+        if (tableItem) tableItem.innerHTML = `<span style="color: #4ade80">${count}</span>`;
+    } else {
+        dot.classList.add('inactive');
+        text.innerText = `${label}: 0`;
+        if (tableItem) tableItem.innerHTML = '<span style="color: var(--accent-red)">0</span>';
+    }
+}
+
 // Close tray on click outside
-window.onclick = () => {
-    document.getElementById('advanced-tray').classList.remove('active');
+window.onclick = (e) => {
+    if (!e.target.closest('.search-engine-label')) {
+        document.getElementById('advanced-tray').classList.remove('active');
+    }
 };
 
 init();

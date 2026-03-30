@@ -218,6 +218,7 @@ body::before {
     width: 100%;
     max-width: 900px;
     margin-bottom: 40px;
+    margin: 0 auto;
 }
 
 .link-item {
@@ -279,10 +280,85 @@ body::before {
 .link-label {
     font-size: 0.85rem;
     font-weight: 500;
-    white-space: nowrap;
+    line-height: 1.2;
+    text-align: center;
+    max-width: 100px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
+}
+
+/* Stats Ticker */
+.stats-ticker {
     width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 8px 10px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    user-select: none;
+}
+
+.stats-ticker:hover {
+    background: rgba(115, 191, 219, 0.15);
+    color: var(--text-primary);
+}
+
+.ticker-label {
+    font-weight: 700;
+    color: var(--accent-blue);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #444;
+}
+
+.status-dot.active {
+    background: #4ade80;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.5);
+}
+
+.status-dot.inactive {
+    background: var(--accent-red);
+}
+
+.modal-body table {
+    width: 100%;
+    margin: 20px 0;
+    border-collapse: collapse;
+}
+
+.modal-body th,
+.modal-body td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.modal-body th {
+    color: var(--accent-blue);
+    font-size: 0.8rem;
+    text-transform: uppercase;
 }
 
 /* Back Button & View Header */

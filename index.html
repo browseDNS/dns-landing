@@ -10,8 +10,24 @@
 </head>
 
 <body data-theme="dark">
-    <div class="ad-banner">
+    <!-- <div class="ad-banner">
         &lt; Advertising Slot &gt;
+    </div> -->
+
+    <div class="stats-ticker" id="stats-ticker" onclick="openModal('dns-modal')">
+        <span class="ticker-label">Users Online</span>
+        <div class="stat-item" id="stat-east">
+            <div class="status-dot"></div>
+            <span>US East: --</span>
+        </div>
+        <div class="stat-item" id="stat-west">
+            <div class="status-dot"></div>
+            <span>US West: --</span>
+        </div>
+        <div class="stat-item" id="stat-uk">
+            <div class="status-dot"></div>
+            <span>Europe: --</span>
+        </div>
     </div>
 
     <div class="main-container">
@@ -34,17 +50,19 @@
                     <div style="font-size: 0.8rem; font-weight: bold; margin-bottom: 5px;">SELECT ENGINE</div>
                     <div class="engine-selector">
                         <button class="engine-btn active" onclick="setEngine('google-cse')">Google CSE</button>
-                        <button class="engine-btn" onclick="setEngine('google')">Google</button>
+                        <!-- <button class="engine-btn" onclick="setEngine('google')">Google</button> -->
+                        <!-- doesn't work on switch UA -->
+                        <button class="engine-btn" onclick="setEngine('aol')">AOL</button>
                         <button class="engine-btn" onclick="setEngine('ddg')">DuckDuckGo</button>
                         <button class="engine-btn" onclick="setEngine('bing')">Bing</button>
                         <button class="engine-btn" onclick="setEngine('startpage')">StartPage</button>
                         <button class="engine-btn" onclick="setEngine('yahoo')">Yahoo</button>
                     </div>
-                    <div style="font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; margin-top: 5px;">THEME</div>
+                    <!-- <div style="font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; margin-top: 5px;">THEME</div>
                     <div class="engine-selector">
                         <button class="engine-btn" onclick="setTheme('light')">Light</button>
                         <button class="engine-btn" onclick="setTheme('dark')">Dark</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -91,8 +109,10 @@
 
     <div class="footer">
         <div class="footer-links">
-            <button onclick="openModal('tos-modal')">Terms of Service</button>
+            <button onclick="openModal('tos-modal')">Terms of Use</button>
             <button onclick="openModal('faq-modal')">FAQ</button>
+            <!-- <button onclick="window.location.href='http://fortheusers.org/change/'">Petition</button> -->
+            <!-- <button onclick="window.location.href='https://docs.google.com/forms/d/e/1FAIpQLScE9QjXEl0vdOcAl7ixjyuNjgffYdp08ism16VlFPfoh_hKGA/viewform'">Feedback</button> -->
             <button onclick="window.location.href='https://github.com/browseDNS'">GitHub</button>
             <button onclick="window.location.href='https://browsedns.net/topic/3039/browsedns-discord'">Discord</button>
         </div>
@@ -104,7 +124,7 @@
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal(null, 'tos-modal')"><i class="fas fa-times"></i></button>
             <div class="modal-body">
-                <h1>Terms of Service</h1>
+                <h1>Terms of Use</h1>
                 <p>BrowseDNS is a public DNS server that enables devices with hidden or limited built-in web browsers to
                     browse the open Internet.</p>
                 <p>For a full list of supported devices, <a
@@ -120,6 +140,8 @@
                     still applies.</p>
                 <p><a href="https://browsedns.net/topic/8/browsedns-enable-access-to-the-open-internet"
                         target="_blank">Learn more on BrowseDNS.net</a></p>
+                <p><a href="javascript:closeModal(null, 'tos-modal'); openModal('dns-modal')">View DNS server info</a>
+                </p>
             </div>
         </div>
     </div>
@@ -130,11 +152,13 @@
             <div class="modal-body">
                 <h1>Frequently Asked Questions</h1>
                 <h2>How does it work?</h2>
-                <p>The DNS server utilizes the "Captive Portal" functionality built into modern devices. It
+                <p>The DNS server utilizes the <a href="https://en.wikipedia.org/wiki/Captive_portal"
+                        target="_blank">Captive Portal</a> functionality built into modern devices. It
                     redirects connection tests to this landing page, where you can reach the open Internet.</p>
                 <h2>Why can't I play videos?</h2>
                 <p>Video playback is explicitly disabled in some connection applets. We have no control over this
-                    hardware-level restriction.</p>
+                    hardware-level restriction. For the Switch, you can sign the petition at: <a
+                        href="https://fortheusers.org/change" target="_blank">fortheusers.org/change</a></p>
                 <h2>How to disable?</h2>
                 <p>If you'd like to stop using the service, simply set your DNS settings back to
                     <strong>Automatic</strong>, or manually enter <strong>8.8.8.8</strong> (Google DNS).
@@ -143,6 +167,55 @@
                     device settings. This will lock the network settings and prevent the DNS from being changed.</p>
                 <h2>More Info</h2>
                 <p>Visit the <a href="https://faq.fortheusers.org/#dns-service" target="_blank">ForTheUsers FAQ</a></p>
+                <p>Join the <a href="https://browsedns.net/topic/3039/browsedns-discord" target="_blank">BrowseDNS
+                        Discord</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="dns-modal" class="modal-overlay" onclick="closeModal(event, 'dns-modal')">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal(null, 'dns-modal')"><i class="fas fa-times"></i></button>
+            <div class="modal-body">
+                <h1>DNS Server Info</h1>
+                <p>We provide three regional DNS servers for the best possible speeds. Pick the one closest to you:</p>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Server Region</th>
+                            <th>DNS Address</th>
+                            <th>Users Online</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dns-table-body">
+                        <tr>
+                            <td>US East Coast</td>
+                            <td>45.55.142.122</td>
+                            <td id="table-stat-east">--</td>
+                        </tr>
+                        <tr>
+                            <td>US West Coast</td>
+                            <td>45.55.112.11</td>
+                            <td id="table-stat-west">--</td>
+                        </tr>
+                        <tr>
+                            <td>United Kingdom</td>
+                            <td>46.101.65.164</td>
+                            <td id="table-stat-uk">--</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <!-- <h2>How to choose?</h2>
+                <p>Only one address is required for your Primary DNS. Choosing the server geographically closest to
+                    you will result in faster page load times.</p> -->
+
+                <h2>Self-Hosting</h2>
+                <p>If you'd like to run your own captive portal redirect without relying on our servers, check out
+                    <a href="https://github.com/browseDNS/CaptiveDNS" target="_blank">CaptiveDNS</a>. This allows
+                    you to host the redirect on a computer within your own network.
+                </p>
             </div>
         </div>
     </div>
