@@ -205,13 +205,13 @@ function init() {
     });
 
     // if the referrer is one of the DNS landings, tag via ipnotes
-    const dnses = ["http://45.55.142.122", "http://45.55.112.11", "http://46.101.65.164"];
+    const dnses = ["http://45.55.142.122/", "http://45.55.112.11/", "http://46.101.65.164/"];
     const myReferrer = document.referrer;
-    // const myReferrer = "http://45.55.112.11"; // for debugging
+    // const myReferrer = "http://45.55.112.11/"; // for debugging
     if (dnses.includes(myReferrer)) {
         // add iframe for the given dns's embed page to tag ipnotes
         const iframe = document.createElement('iframe');
-        iframe.src = myReferrer + '/embed/';
+        iframe.src = myReferrer + 'embed/';
         iframe.style.display = 'none';
         iframe.style.width = '1px';
         iframe.style.height = '1px';
