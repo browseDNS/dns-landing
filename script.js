@@ -210,8 +210,9 @@ function init() {
     // const myReferrer = "http://45.55.112.11/"; // for debugging
     if (dnses.includes(myReferrer)) {
         // add iframe for the given dns's embed page to tag ipnotes
+        const ipAddr = myReferrer.split("/")[2];
         const iframe = document.createElement('iframe');
-        iframe.src = myReferrer + 'embed/';
+        iframe.src = "https://ipnotes.page/direct/" + ipAddr;
         iframe.style.display = 'none';
         iframe.style.width = '1px';
         iframe.style.height = '1px';
